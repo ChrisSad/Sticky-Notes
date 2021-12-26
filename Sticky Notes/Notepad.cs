@@ -8,6 +8,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Data.SqlClient;
+
+//TODO change the text files used to store data with sql databases
+
 
 namespace Sticky_Notes
 {
@@ -20,17 +24,24 @@ namespace Sticky_Notes
             retrieveNotes();
         }
 
+        private List<string> filenames;
+
         public void retrieveNotes()
         {
             try
             {
-                string text;
+                filenames = new List<string>();
+
                 using (var sr = new StreamReader("notes.txt"))
                 {
-                    text = sr.ReadToEnd();
-                    
+                    while (!sr.EndOfStream)
+                    {
+                        filenames.Add(sr.ReadLine());
+                    }
                 }
-                notesRTB.Text = text;
+
+                displayNotes(filenames);
+                
             }
             catch (IOException e)
             {
@@ -38,9 +49,32 @@ namespace Sticky_Notes
             }
         }
 
+        public void displayNotes(List<String> filenames)
+        {
+            foreach (string filename in filenames)
+            {
+                Note a = new Note();
+                a.updateInfo(filename);
+                a.Show();
+
+                notesRTB.Text += filename + "\n";
+            }
+        }
+
         private void addToolStripButton_Click(object sender, EventArgs e)//new note button
         {
 
+            foreach(string filename in filenames)
+            {
+
+            }
+
+            using (StreamWriter sw = File.CreateText("new.txt"))
+            {
+                sw.WriteLine("Hello");
+                sw.WriteLine("And");
+                sw.WriteLine("Welcome");
+            }
         }
 
         private void saveToolStripButton_Click(object sender, EventArgs e)//save button
