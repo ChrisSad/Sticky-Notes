@@ -10,8 +10,11 @@ using System.Windows.Forms;
 using System.IO;
 using System.Data.SqlClient;
 
-//TODO change the text files used to store data with sql databases
-
+/* TODO 
+ * change the text files used to store data with sql databases
+ * Set form start up location to the location it was previously closed at
+ * Resize the textbox when the form is resized
+*/
 
 namespace Sticky_Notes
 {
@@ -22,9 +25,14 @@ namespace Sticky_Notes
             InitializeComponent();
 
             retrieveNotes();
+
+            autoSaveTimer.Enabled = true;
+            autoSaveTimer.Interval = 10000;//10 seconds
+            autoSaveTimer.Start();
         }
 
         private List<string> filenames;
+        private List<Note> notes =  new List<Note>();
 
         public void retrieveNotes()
         {
@@ -38,9 +46,11 @@ namespace Sticky_Notes
                     {
                         filenames.Add(sr.ReadLine());
                     }
+                    sr.Close();
                 }
+                if (filenames.Count > 0)
+                    displayNotes();
 
-                displayNotes(filenames);
                 
             }
             catch (IOException e)
@@ -49,32 +59,28 @@ namespace Sticky_Notes
             }
         }
 
-        public void displayNotes(List<String> filenames)
+        public void displayNotes()
         {
-            foreach (string filename in filenames)
+            for (int i = 0; i < filenames.Count; i++)
             {
-                Note a = new Note();
-                a.updateInfo(filename);
-                a.Show();
+                notes.Add(new Note());
+                notes.Last().updateInfo($"{i} {filenames[i]}");
+                //try { notes.Add(note);}catch (Exception e) { }
+                MessageBox.Show(notes.Last().noteData);
 
-                notesRTB.Text += filename + "\n";
+                notes.Last().Show();
+
+                allNotesRTB.Text += filenames[i] + "\n";
             }
         }
 
         private void addToolStripButton_Click(object sender, EventArgs e)//new note button
         {
-
-            foreach(string filename in filenames)
-            {
-
-            }
-
-            using (StreamWriter sw = File.CreateText("new.txt"))
-            {
-                sw.WriteLine("Hello");
-                sw.WriteLine("And");
-                sw.WriteLine("Welcome");
-            }
+            Note note = new Note();
+            note.newNote(filenames.Count);
+            notes.Add(note);
+            note.KeyPreview = true;
+            note.Show();
         }
 
         private void saveToolStripButton_Click(object sender, EventArgs e)//save button
@@ -83,8 +89,8 @@ namespace Sticky_Notes
             {
                 using (var sr = new StreamWriter("notes.txt"))
                 {
-                    sr.Write(notesRTB.Text);
-
+                    sr.Write(allNotesRTB.Text);
+                    sr.Close();
                 }
             }
             catch (IOException ex)
@@ -93,6 +99,14 @@ namespace Sticky_Notes
             }
         }
 
-        
+        private void autoSaveTimer_Tick(object sender, EventArgs e)
+        {
+            allNotesRTB.Clear();
+            foreach (Note note in notes)
+            {
+                allNotesRTB.Text += note.noteData + "\n";
+            }
+            //MessageBox.Show("hi");
+        }
     }
 }

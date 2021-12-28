@@ -28,11 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Notepad));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.addToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.saveToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.notesRTB = new System.Windows.Forms.RichTextBox();
+            this.allNotesRTB = new System.Windows.Forms.RichTextBox();
+            this.autoSaveTimer = new System.Windows.Forms.Timer(this.components);
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -68,24 +70,29 @@
             this.saveToolStripButton.Text = "&Save";
             this.saveToolStripButton.Click += new System.EventHandler(this.saveToolStripButton_Click);
             // 
-            // notesRTB
+            // allNotesRTB
             // 
-            this.notesRTB.BackColor = System.Drawing.SystemColors.MenuBar;
-            this.notesRTB.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.notesRTB.Location = new System.Drawing.Point(12, 28);
-            this.notesRTB.Name = "notesRTB";
-            this.notesRTB.Size = new System.Drawing.Size(352, 320);
-            this.notesRTB.TabIndex = 1;
-            this.notesRTB.Text = "";
+            this.allNotesRTB.BackColor = System.Drawing.SystemColors.MenuBar;
+            this.allNotesRTB.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.allNotesRTB.Location = new System.Drawing.Point(12, 28);
+            this.allNotesRTB.Name = "allNotesRTB";
+            this.allNotesRTB.Size = new System.Drawing.Size(195, 427);
+            this.allNotesRTB.TabIndex = 1;
+            this.allNotesRTB.Text = "";
+            // 
+            // autoSaveTimer
+            // 
+            this.autoSaveTimer.Tick += new System.EventHandler(this.autoSaveTimer_Tick);
             // 
             // Notepad
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(219, 467);
-            this.Controls.Add(this.notesRTB);
+            this.Controls.Add(this.allNotesRTB);
             this.Controls.Add(this.toolStrip1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Name = "Notepad";
             this.Text = "Notepad";
             this.toolStrip1.ResumeLayout(false);
@@ -100,7 +107,8 @@
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton addToolStripButton;
         private System.Windows.Forms.ToolStripButton saveToolStripButton;
-        private System.Windows.Forms.RichTextBox notesRTB;
+        private System.Windows.Forms.RichTextBox allNotesRTB;
+        private System.Windows.Forms.Timer autoSaveTimer;
     }
 }
 
