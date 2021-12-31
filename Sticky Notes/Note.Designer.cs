@@ -44,6 +44,7 @@
             this.notesRTB.Size = new System.Drawing.Size(298, 266);
             this.notesRTB.TabIndex = 0;
             this.notesRTB.Text = "";
+            this.notesRTB.KeyUp += new System.Windows.Forms.KeyEventHandler(this.notesRTB_KeyUp);
             // 
             // toolStrip1
             // 

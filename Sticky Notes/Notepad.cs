@@ -47,13 +47,7 @@ namespace Sticky_Notes
                     while (!sr.EndOfStream)
                     {
                         string line = sr.ReadLine();
-                        string read = "";
-                        while (line != "--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------")
-                        {
-                            read += line + "\n";
-                            line = sr.ReadLine();
-                        }
-                        filenames.Add(read);
+                        filenames.Add(line);
                     }
                     sr.Close();
                 }
@@ -72,12 +66,10 @@ namespace Sticky_Notes
         {
             for (int i = 0; i < filenames.Count; i++)
             {
-                notes.Add(new Note());
-                notes.Last().updateInfo($"{i} {filenames[i]}");
-                //try { notes.Add(note);}catch (Exception e) { }
-                //MessageBox.Show(notes.Last().noteData);
-
-                notes.Last().Show();
+                Note note = new Note();
+                note.updateInfo(i.ToString(),filenames[i]);
+                notes.Add(note);
+                note.Show();
 
                 allNotesRTB.Text += filenames[i] + "\n";
             }
@@ -87,13 +79,14 @@ namespace Sticky_Notes
         {
             Note note = new Note();
             note.newNote(filenames.Count);
+            filenames.Add($"note{filenames.Count}.txt");
             notes.Add(note);
-            note.KeyPreview = true;
+            //note.KeyPreview = true;
             note.Show();
         }
 
         private void saveToolStripButton_Click(object sender, EventArgs e)//save button
-        {
+        {/*
             try
             {
                 using (var sr = new StreamWriter("notes.txt"))
@@ -106,17 +99,48 @@ namespace Sticky_Notes
             catch (IOException ex)
             {
                 MessageBox.Show("The file could not be written in:\n" + ex.Message);
+            }*/
+            foreach (Note note in notes)
+            {
+                try
+                {
+                    using (var sw = new StreamWriter($"note{note.noteID}.txt"))
+                    {
+                        sw.Write(note.noteData);
+                        sw.Close();
+                    }
+                }
+                catch (IOException ex)
+                {
+                    MessageBox.Show("The file could not be found in:\n" + ex.Message);
+                }
+
             }
+            timeLBL.Text = DateTime.Now.ToString();
         }
 
-        private void autoSaveTimer_Tick(object sender, EventArgs e)
+        private void autoSaveTimer_Tick(object sender, EventArgs e)//timer interval set to 10 seconds (set in the initialization)
         {
             allNotesRTB.Clear();
             foreach (Note note in notes)
             {
-                allNotesRTB.Text += $"{note.noteData}\n";
+                allNotesRTB.Text += $"note{note.noteID}.txt\n";
+
+                try
+                {
+                    using (var sw = new StreamWriter($"note{note.noteID}.txt"))
+                    {
+                        sw.Write(note.noteData);
+                        sw.Close();
+                        timeLBL.Text = DateTime.Now.ToString();
+                    }
+                }
+                catch (IOException ex)
+                {
+                    MessageBox.Show("The file could not be found in:\n" + ex.Message);
+                }
+
             }
-            //MessageBox.Show("hi");
 
             timeLBL.Text = DateTime.Now.ToString();
         }

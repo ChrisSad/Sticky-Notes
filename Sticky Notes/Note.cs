@@ -21,17 +21,19 @@ namespace Sticky_Notes
         public Note()
         {
             InitializeComponent();
-            notesRTB.KeyPress += noteRTB_KeyPress;
+            //notesRTB.KeyDown += noteRTB_KeyPress;
         }
 
-        public void updateInfo(string info)
+        public void updateInfo(string id, string info)
         {
-            noteID = info.Split(' ')[0];
-            string[] line = info.Split(' ').ToArray();
-            for (int i = 1; i < line.Length; i++)
-            {
-                noteData += line[i]+" ";
-            }
+            noteID = id;
+            string noteFileName = info;
+
+            StreamReader sr = new StreamReader(noteFileName);
+            noteData = sr.ReadToEnd();
+            sr.Close();
+
+
             notesRTB.Text = noteData;
         }
 
@@ -40,10 +42,12 @@ namespace Sticky_Notes
             noteID = id.ToString();
             try
             {
-                using (var sr = new StreamWriter("notes.txt",true))
+                StreamWriter sw = File.CreateText($"note{noteID}.txt");
+                sw.Close();
+                using (var main = new StreamWriter("notes.txt",true))
                 {
-                    sr.WriteLine($"{noteID} ");
-                    sr.Close();
+                    main.WriteLine($"note{noteID}.txt");
+                    main.Close();
                 }
             }
             catch (IOException ex)
@@ -52,30 +56,16 @@ namespace Sticky_Notes
             }
         }
 
-        void noteRTB_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            //MessageBox.Show($"{e.KeyChar}");
-            //noteData += e.KeyChar;
-            noteData = notesRTB.Text;
-            
-        }
 
         private void saveToolStripButton_Click(object sender, EventArgs e)
         {
-            //reads the text file and saves the entire list to a array
-            //writes array in the text file with the data changed for the row with the same id
-
-            List<string> lines = new List<string>();
             try
             {
 
-                using (var sr = new StreamReader("notes.txt"))
+                using (var sw = new StreamWriter($"note{noteID}.txt"))
                 {
-                    while (!sr.EndOfStream)
-                    {
-                        lines.Add(sr.ReadLine());
-                    }
-                    sr.Close();
+                    sw.WriteLine(noteData);
+                    sw.Close();
                 }
             }
             catch (IOException ex)
@@ -83,29 +73,13 @@ namespace Sticky_Notes
                 MessageBox.Show("The file could not be read:\n" + ex.Message);
             }
 
-            try
-            {
+        }
 
-                using (var sw = new StreamWriter("notes.txt"))
-                {
-                    foreach (var line in lines)
-                    {
-                        if (line.Split(' ')[0].Equals(noteID))
-                        {
-                            sw.WriteLine($"{noteID} {noteData}");
-                        }
-                        else
-                        {
-                            sw.WriteLine(line);
-                        }
-                    }
-                    sw.Close();
-                }
-            }
-            catch (IOException ex)
-            {
-                MessageBox.Show("The file could not be written in:\n" + ex.Message);
-            }
+
+        private void notesRTB_KeyUp(object sender, KeyEventArgs e)
+        {
+            //noteData += e.KeyChar;
+            noteData = notesRTB.Text;
         }
     }
 }
