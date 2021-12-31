@@ -37,7 +37,7 @@
             // 
             // notesRTB
             // 
-            this.notesRTB.BackColor = System.Drawing.SystemColors.MenuBar;
+            this.notesRTB.BackColor = System.Drawing.Color.Beige;
             this.notesRTB.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.notesRTB.Location = new System.Drawing.Point(12, 27);
             this.notesRTB.Name = "notesRTB";
@@ -47,6 +47,7 @@
             // 
             // toolStrip1
             // 
+            this.toolStrip1.BackColor = System.Drawing.Color.Beige;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.saveToolStripButton});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
@@ -69,6 +70,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.Beige;
             this.ClientSize = new System.Drawing.Size(322, 305);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.notesRTB);

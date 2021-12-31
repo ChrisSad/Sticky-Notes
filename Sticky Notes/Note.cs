@@ -55,8 +55,8 @@ namespace Sticky_Notes
         void noteRTB_KeyPress(object sender, KeyPressEventArgs e)
         {
             //MessageBox.Show($"{e.KeyChar}");
-            noteData += e.KeyChar;
-
+            //noteData += e.KeyChar;
+            noteData = notesRTB.Text;
             
         }
 

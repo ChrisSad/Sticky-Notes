@@ -29,6 +29,8 @@ namespace Sticky_Notes
             autoSaveTimer.Enabled = true;
             autoSaveTimer.Interval = 10000;//10 seconds
             autoSaveTimer.Start();
+
+            timeLBL.Text = DateTime.Now.ToString();
         }
 
         private List<string> filenames;
@@ -44,7 +46,14 @@ namespace Sticky_Notes
                 {
                     while (!sr.EndOfStream)
                     {
-                        filenames.Add(sr.ReadLine());
+                        string line = sr.ReadLine();
+                        string read = "";
+                        while (line != "--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------")
+                        {
+                            read += line + "\n";
+                            line = sr.ReadLine();
+                        }
+                        filenames.Add(read);
                     }
                     sr.Close();
                 }
@@ -66,7 +75,7 @@ namespace Sticky_Notes
                 notes.Add(new Note());
                 notes.Last().updateInfo($"{i} {filenames[i]}");
                 //try { notes.Add(note);}catch (Exception e) { }
-                MessageBox.Show(notes.Last().noteData);
+                //MessageBox.Show(notes.Last().noteData);
 
                 notes.Last().Show();
 
@@ -91,6 +100,7 @@ namespace Sticky_Notes
                 {
                     sr.Write(allNotesRTB.Text);
                     sr.Close();
+                    timeLBL.Text = DateTime.Now.ToString();
                 }
             }
             catch (IOException ex)
@@ -104,9 +114,11 @@ namespace Sticky_Notes
             allNotesRTB.Clear();
             foreach (Note note in notes)
             {
-                allNotesRTB.Text += note.noteData + "\n";
+                allNotesRTB.Text += $"{note.noteData}\n";
             }
             //MessageBox.Show("hi");
+
+            timeLBL.Text = DateTime.Now.ToString();
         }
     }
 }
