@@ -5,7 +5,7 @@ The purpose of this project is to create an application that mimikes the uses of
 
 Goals:
 - Add custom fonts/colours to the background and text
-- Notes automatically save after writting on them
+- Notes automatically save locally after writting on them
 - Start on pc startup
 - Notes open in the same location they were previously closed in
 - User friendly controls
