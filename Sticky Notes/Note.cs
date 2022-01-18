@@ -10,6 +10,13 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 
+/* TODO
+ * - Set the startup location to manual then load it in the same location the note was left in on previous use. Location should be save locally, default location is center of screen and the location should be reset if location is outside the screen size/resolution.
+ * - Add way to change font, text size/colour, underline, strikeout,
+ * - Add a picture to the DELETE NOTE button in the toolbar
+ * - When the note manager (notepad) is minimized, stop the other notes from minimizing aswell.
+ */
+
 
 namespace Sticky_Notes
 {
@@ -80,6 +87,42 @@ namespace Sticky_Notes
         {
             //noteData += e.KeyChar;
             noteData = notesRTB.Text;
+        }
+
+        private void deleteToolSripButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                List<string> filenames = new List<string>();
+                using (var main = new StreamReader("notes.txt"))
+                {
+                    while (!main.EndOfStream)
+                    {
+                        string line = main.ReadLine();
+                        filenames.Add(line);
+                    }
+                    main.Close();
+                }
+
+                using (var main = new StreamWriter("notes.txt", false))
+                {
+                    foreach (string filename in filenames)
+                    {
+                        if (!filename.Equals($"note{noteID}.txt"))
+                        {
+                            main.WriteLine(filename);
+                        }
+                    }
+                    main.Close();
+                }
+
+                File.Delete($"note{noteID}.txt");
+                Form.ActiveForm.Close();
+            }
+            catch (IOException ex)
+            {
+                MessageBox.Show("The file could not be written in:\n" + ex.Message);
+            }
         }
     }
 }

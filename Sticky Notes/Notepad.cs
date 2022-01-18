@@ -11,9 +11,9 @@ using System.IO;
 using System.Data.SqlClient;
 
 /* TODO 
- * change the text files used to store data with sql databases
- * Set form start up location to the location it was previously closed at
- * Resize the textbox when the form is resized
+ * - change the text files used to store data with sql databases
+ * - Set form start up location to the location it was previously closed at
+ * - Resize the textbox when the form is resized
 */
 
 namespace Sticky_Notes
@@ -86,20 +86,7 @@ namespace Sticky_Notes
         }
 
         private void saveToolStripButton_Click(object sender, EventArgs e)//save button
-        {/*
-            try
-            {
-                using (var sr = new StreamWriter("notes.txt"))
-                {
-                    sr.Write(allNotesRTB.Text);
-                    sr.Close();
-                    timeLBL.Text = DateTime.Now.ToString();
-                }
-            }
-            catch (IOException ex)
-            {
-                MessageBox.Show("The file could not be written in:\n" + ex.Message);
-            }*/
+        {
             foreach (Note note in notes)
             {
                 try

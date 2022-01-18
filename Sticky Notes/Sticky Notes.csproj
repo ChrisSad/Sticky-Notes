@@ -89,6 +89,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -114,6 +115,18 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\icons\delete-button-png-28580.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\icons\save-icon-5404.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\icons\font-icon-35264.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\icons\font-ico-1616.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
